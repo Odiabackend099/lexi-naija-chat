@@ -8,34 +8,34 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* LexiPay AI Nigerian-First Design System */
+    /* LexiPay AI Nigerian-First Design System - Fixed Contrast */
     --background: 0 0% 4%; /* Rich black */
     --foreground: 0 0% 98%; /* Near white for better contrast */
 
     --card: 0 0% 8%; /* Slightly elevated black */
-    --card-foreground: 0 0% 98%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 0 0% 98%; /* Near white for CTAs */
-    --primary-foreground: 0 0% 4%;
+    --primary: 0 0% 96%; /* Near white for CTAs */
+    --primary-foreground: 0 0% 6%;
 
-    --secondary: 120 100% 30%; /* Deeper Nigerian flag green */
+    --secondary: 120 100% 25%; /* Deeper Nigerian flag green for better contrast */
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 70%; /* Better contrast */
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 75%; /* Better contrast */
 
     --accent: 30 100% 55%; /* Brighter sunset orange */
     --accent-foreground: 0 0% 4%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 20%; /* Lighter border for visibility */
+    --border: 0 0% 25%; /* Lighter border for visibility */
     --input: 0 0% 15%;
-    --ring: 0 0% 98%;
+    --ring: 0 0% 96%;
 
     /* LexiPay AI Brand Colors */
     --trust-blue: 213 100% 21%; /* CBN navy blue */
@@ -200,4 +200,12 @@ All colors MUST be HSL.
   /* Premium shadows */
   .shadow-premium { box-shadow: var(--shadow-premium); }
   .shadow-glow { box-shadow: var(--shadow-glow); }
+  
+  /* Parallax and 3D utilities */
+  .parallax-slow { transform: translateZ(0); will-change: transform; }
+  .parallax-medium { transform: translateZ(0); will-change: transform; }
+  .parallax-fast { transform: translateZ(0); will-change: transform; }
+  
+  .preserve-3d { transform-style: preserve-3d; }
+  .perspective { perspective: 1000px; }
 }
