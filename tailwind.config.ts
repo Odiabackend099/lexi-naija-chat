@@ -61,7 +61,11 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// LexiPay AI Brand Colors
+				'trust-blue': 'hsl(var(--trust-blue))',
+				'success-gold': 'hsl(var(--success-gold))',
+				'whatsapp-green': 'hsl(var(--whatsapp-green))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

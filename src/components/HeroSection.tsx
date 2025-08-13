@@ -1,0 +1,145 @@
+import { motion } from "framer-motion";
+import { MessageCircle, ArrowRight, Play } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AnimatedPhone } from "./AnimatedPhone";
+
+export const HeroSection = () => {
+  const handleWhatsAppCTA = () => {
+    window.open("https://wa.me/14155238886?text=Hi%20Lexi!%20I%20want%20to%20try%20LexiPay%20AI%20for%20my%20business.%20Please%20set%20me%20up.", "_blank");
+  };
+
+  return (
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden gradient-hero">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-secondary/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-48 h-48 bg-accent/20 rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+        {/* Content */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="space-y-8"
+        >
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 bg-secondary/10 border border-secondary/20 rounded-full px-4 py-2 text-sm font-medium"
+          >
+            <div className="w-2 h-2 bg-secondary rounded-full animate-pulse" />
+            From the makers of Agent Lexi
+          </motion.div>
+
+          {/* Main Headline */}
+          <div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-5xl lg:text-7xl font-bold leading-tight"
+            >
+              Imagine{" "}
+              <span className="bg-gradient-accent bg-clip-text text-transparent">
+                ChatGPT-5
+              </span>{" "}
+              as your Personal AI Financial Assistant
+            </motion.h1>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl lg:text-2xl text-muted-foreground mt-6 leading-relaxed"
+            >
+              But actually works in Nigeria. CBN compliant, Nigerian banks, voice AI. 
+              <span className="text-foreground font-semibold"> Meet Lexi.</span>
+            </motion.p>
+          </div>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4"
+          >
+            <Button
+              onClick={handleWhatsAppCTA}
+              size="lg"
+              className="bg-whatsapp-green hover:bg-whatsapp-green/90 text-white px-8 py-4 text-lg font-semibold rounded-xl flex items-center gap-3 shadow-glow"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Start Free Trial in WhatsApp
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+            
+            <Button
+              variant="outline"
+              size="lg"
+              className="px-8 py-4 text-lg font-semibold rounded-xl border-border hover:bg-card flex items-center gap-3"
+            >
+              <Play className="w-5 h-5" />
+              Watch 60-sec Demo
+            </Button>
+          </motion.div>
+
+          {/* Trust Indicators */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex items-center gap-6 text-sm text-muted-foreground"
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-secondary rounded-full" />
+              7-day free trial
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-trust-blue rounded-full" />
+              CBN compliant
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-success-gold rounded-full" />
+              No setup fees
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Animated Phone Demo */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, x: 50 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="flex justify-center lg:justify-end"
+        >
+          <AnimatedPhone />
+        </motion.div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 1 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="w-6 h-10 border-2 border-muted-foreground rounded-full flex justify-center"
+        >
+          <motion.div
+            animate={{ y: [0, 16, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1 h-3 bg-muted-foreground rounded-full mt-2"
+          />
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+};

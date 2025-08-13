@@ -8,35 +8,54 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* LexiPay AI Nigerian-First Design System */
+    --background: 0 0% 4%; /* Rich black */
+    --foreground: 0 0% 100%; /* Pure white */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 6%; /* Slightly elevated black */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 100%; /* Pure white for CTAs */
+    --primary-foreground: 0 0% 4%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 120 100% 23%; /* Nigerian flag green */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 30 100% 50%; /* Sunset orange */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 15%;
+    --input: 0 0% 12%;
+    --ring: 0 0% 100%;
 
-    --radius: 0.5rem;
+    /* LexiPay AI Brand Colors */
+    --trust-blue: 213 100% 21%; /* CBN navy blue */
+    --success-gold: 51 100% 50%; /* Prosperity gold */
+    --whatsapp-green: 142 70% 49%; /* WhatsApp brand green */
+    
+    /* Glass morphism */
+    --glass-bg: 0 0% 100% / 0.05;
+    --glass-border: 0 0% 100% / 0.1;
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(213 100% 8%));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--success-gold)), hsl(var(--secondary)));
+    
+    /* Shadows */
+    --shadow-premium: 0 25px 50px -12px hsl(0 0% 0% / 0.8);
+    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.3);
+    
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +119,85 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
+    font-family: 'Inter', system-ui, sans-serif;
   }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Sora', system-ui, sans-serif;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  /* Glass morphism effect */
+  .glass {
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--glass-border));
+  }
+  
+  /* Premium gradients */
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+  
+  .gradient-success {
+    background: var(--gradient-success);
+  }
+  
+  /* Chat bubble animations */
+  .chat-message {
+    @apply transform transition-all duration-300 ease-out;
+  }
+  
+  .chat-message.animate-in {
+    @apply translate-y-0 opacity-100;
+  }
+  
+  .chat-message.animate-out {
+    @apply -translate-y-2 opacity-0;
+  }
+  
+  /* WhatsApp-style message bubbles */
+  .message-bubble-user {
+    @apply bg-whatsapp-green text-white rounded-2xl rounded-br-md px-4 py-2 max-w-xs ml-auto;
+  }
+  
+  .message-bubble-lexi {
+    @apply bg-card text-foreground rounded-2xl rounded-bl-md px-4 py-2 max-w-xs mr-auto border border-border;
+  }
+  
+  /* Nigerian accent elements */
+  .nigeria-accent {
+    position: relative;
+  }
+  
+  .nigeria-accent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, hsl(var(--secondary)), hsl(var(--accent)));
+  }
+}
+
+@layer utilities {
+  /* Custom brand colors */
+  .text-trust-blue { color: hsl(var(--trust-blue)); }
+  .bg-trust-blue { background-color: hsl(var(--trust-blue)); }
+  .text-success-gold { color: hsl(var(--success-gold)); }
+  .bg-success-gold { background-color: hsl(var(--success-gold)); }
+  .text-whatsapp-green { color: hsl(var(--whatsapp-green)); }
+  .bg-whatsapp-green { background-color: hsl(var(--whatsapp-green)); }
+  
+  /* Premium shadows */
+  .shadow-premium { box-shadow: var(--shadow-premium); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
 }
