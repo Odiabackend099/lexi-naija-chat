@@ -4,6 +4,7 @@ import { UseCasesSection } from "./UseCasesSection";
 import { SecuritySection } from "./SecuritySection";
 import { ContextAwareSection } from "./ContextAwareSection";
 import { FeaturesSection } from "./FeaturesSection";
+import { CEOSection } from "./CEOSection";
 import { PricingSection } from "./PricingSection";
 import { FAQSection } from "./FAQSection";
 import { Footer } from "./Footer";
@@ -17,6 +18,7 @@ export const LandingPage = () => {
       <SecuritySection />
       <ContextAwareSection />
       <FeaturesSection />
+      <CEOSection />
       <PricingSection />
       <FAQSection />
       <Footer />

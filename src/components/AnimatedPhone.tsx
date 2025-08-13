@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ChatAnimation } from "./ChatAnimation";
+import whatsappLogo from "@/assets/whatsapp-logo.png";
 
 export const AnimatedPhone = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -26,9 +27,7 @@ export const AnimatedPhone = () => {
             {/* Status Bar */}
             <div className="h-12 bg-whatsapp-green flex items-center justify-between px-4 text-white text-sm font-medium">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-whatsapp-green font-bold text-xs">L</span>
-                </div>
+                <img src={whatsappLogo} alt="WhatsApp" className="w-6 h-6" />
                 <span>Lexi - Your AI Assistant</span>
               </div>
               <div className="flex items-center gap-1">

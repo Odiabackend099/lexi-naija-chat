@@ -10,32 +10,32 @@ All colors MUST be HSL.
   :root {
     /* LexiPay AI Nigerian-First Design System */
     --background: 0 0% 4%; /* Rich black */
-    --foreground: 0 0% 100%; /* Pure white */
+    --foreground: 0 0% 98%; /* Near white for better contrast */
 
-    --card: 0 0% 6%; /* Slightly elevated black */
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 8%; /* Slightly elevated black */
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 100%; /* Pure white for CTAs */
+    --primary: 0 0% 98%; /* Near white for CTAs */
     --primary-foreground: 0 0% 4%;
 
-    --secondary: 120 100% 23%; /* Nigerian flag green */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 120 100% 30%; /* Deeper Nigerian flag green */
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%; /* Better contrast */
 
-    --accent: 30 100% 50%; /* Sunset orange */
-    --accent-foreground: 0 0% 100%;
+    --accent: 30 100% 55%; /* Brighter sunset orange */
+    --accent-foreground: 0 0% 4%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 12%;
-    --ring: 0 0% 100%;
+    --border: 0 0% 20%; /* Lighter border for visibility */
+    --input: 0 0% 15%;
+    --ring: 0 0% 98%;
 
     /* LexiPay AI Brand Colors */
     --trust-blue: 213 100% 21%; /* CBN navy blue */

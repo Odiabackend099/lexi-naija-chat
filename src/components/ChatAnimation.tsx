@@ -14,26 +14,26 @@ const demoConversations: Message[][] = [
   // Primary Payment Demo
   [
     { id: 1, sender: "user" as const, text: "Lexi, send ₦15,000 to my supplier 0123456789" },
-    { id: 2, sender: "lexi" as const, text: "Recipient: ADEBAYO SUPPLIES (GTBank). Confirm ₦15,000 transfer?" },
+    { id: 2, sender: "lexi" as const, text: "🔍 Found: ADEBAYO SUPPLIES (GTBank)\nConfirm ₦15,000 transfer?" },
     { id: 3, sender: "user" as const, text: "Yes, urgent" },
-    { id: 4, sender: "lexi" as const, text: "PIN please (4-digits for security)" },
-    { id: 5, sender: "user" as const, text: "1234" },
-    { id: 6, sender: "lexi" as const, text: "Payment link generated. Tap to approve via your bank app." },
-    { id: 7, sender: "lexi" as const, text: "✅ Transfer confirmed! ₦15,000 sent to ADEBAYO SUPPLIES. Receipt saved." }
+    { id: 4, sender: "lexi" as const, text: "🔐 PIN please (4-digits for security)" },
+    { id: 5, sender: "user" as const, text: "••••" },
+    { id: 6, sender: "lexi" as const, text: "🔗 Payment link generated. Tap to approve via your GTBank app." },
+    { id: 7, sender: "lexi" as const, text: "✅ Transfer successful!\n₦15,000 → ADEBAYO SUPPLIES\nRef: GTB/TXN/240813/001234\n📱 Receipt sent to your phone" }
   ],
   // Expense Tracking Demo
   [
     { id: 1, sender: "user" as const, text: "How much did I spend on transport this week?" },
-    { id: 2, sender: "lexi" as const, text: "₦12,500 on transport. You're ₦2,500 over budget." },
+    { id: 2, sender: "lexi" as const, text: "📊 Weekly transport: ₦12,500\n⚠️ You're ₦2,500 over budget" },
     { id: 3, sender: "user" as const, text: "Show me the breakdown" },
-    { id: 4, sender: "lexi" as const, text: "Monday: ₦2,000 (Uber)\nTuesday: ₦1,500 (Bus)\nWednesday: ₦3,000 (Keke)\nThursday: ₦2,500 (Uber)\nFriday: ₦3,500 (Taxi)" }
+    { id: 4, sender: "lexi" as const, text: "📈 Daily breakdown:\n• Mon: ₦2,000 (Uber to VI)\n• Tue: ₦1,500 (Bus to Ikeja)\n• Wed: ₦3,000 (Keke to Lagos Island)\n• Thu: ₦2,500 (Uber to Lekki)\n• Fri: ₦3,500 (Taxi to Airport)\n\n💡 Tip: Use BRT more often!" }
   ],
   // Invoice Generation Demo
   [
     { id: 1, sender: "user" as const, text: "Create invoice for ₦50k website project" },
-    { id: 2, sender: "lexi" as const, text: "Invoice #001 created for ODIA.DEV. Sent to client via WhatsApp." },
+    { id: 2, sender: "lexi" as const, text: "📄 Invoice #LXP-001 created!\n🏢 Client: ODIA.DEV\n💰 Amount: ₦50,000\n📱 Sent via WhatsApp & Email" },
     { id: 3, sender: "user" as const, text: "When will I get paid?" },
-    { id: 4, sender: "lexi" as const, text: "Payment due: Dec 31, 2024. I'll remind you 2 days before." }
+    { id: 4, sender: "lexi" as const, text: "📅 Payment due: Dec 31, 2024\n⏰ I'll remind you 2 days before\n📊 Your average payment time: 14 days" }
   ]
 ];
 

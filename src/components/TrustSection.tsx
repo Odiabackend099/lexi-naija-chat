@@ -1,5 +1,9 @@
 import { motion } from "framer-motion";
 import { Shield, Lock, Award, CheckCircle } from "lucide-react";
+import gtbankLogo from "@/assets/gtbank-logo.png";
+import ubaLogo from "@/assets/uba-logo.png";
+import firstbankLogo from "@/assets/firstbank-logo.png";
+import zenithLogo from "@/assets/zenith-logo.png";
 
 const trustSignals = [
   {
@@ -25,7 +29,10 @@ const trustSignals = [
 ];
 
 const nigerianBanks = [
-  "GTBank", "First Bank", "UBA", "Zenith Bank", "Access Bank", "Fidelity Bank"
+  { name: "GTBank", logo: gtbankLogo },
+  { name: "UBA", logo: ubaLogo },
+  { name: "First Bank", logo: firstbankLogo },
+  { name: "Zenith Bank", logo: zenithLogo }
 ];
 
 export const TrustSection = () => {
@@ -80,17 +87,24 @@ export const TrustSection = () => {
           <h3 className="text-2xl font-semibold mb-8">
             Integrated with Nigeria's Top Banks
           </h3>
-          <div className="flex flex-wrap justify-center items-center gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
             {nigerianBanks.map((bank, index) => (
               <motion.div
-                key={bank}
+                key={bank.name}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="px-6 py-3 bg-card border border-border rounded-lg text-lg font-medium"
+                className="group flex flex-col items-center"
               >
-                {bank}
+                <div className="w-20 h-20 bg-card border border-border rounded-xl flex items-center justify-center p-3 group-hover:scale-110 transition-transform duration-300 mb-3">
+                  <img 
+                    src={bank.logo} 
+                    alt={`${bank.name} logo`} 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <p className="text-sm font-medium text-center">{bank.name}</p>
               </motion.div>
             ))}
           </div>
