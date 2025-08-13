@@ -41,13 +41,13 @@ export const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl lg:text-7xl font-bold leading-tight"
+              className="text-4xl lg:text-6xl font-bold leading-tight"
             >
-              Imagine{" "}
+              Your Personal AI{" "}
               <span className="bg-gradient-accent bg-clip-text text-transparent">
-                ChatGPT-5
+                Financial Assistant,
               </span>{" "}
-              as your Personal AI Financial Assistant
+              Anytime, Anywhere
             </motion.h1>
             
             <motion.p
@@ -56,8 +56,9 @@ export const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl lg:text-2xl text-muted-foreground mt-6 leading-relaxed"
             >
-              But actually works in Nigeria. CBN compliant, Nigerian banks, voice AI. 
-              <span className="text-foreground font-semibold"> Meet Lexi.</span>
+              Unlock smarter financial choices with Lexi, your AI-powered assistant on WhatsApp, 
+              making every transaction simpler and more intuitive for{" "}
+              <span className="text-foreground font-semibold">Nigerian businesses.</span>
             </motion.p>
           </div>
 
