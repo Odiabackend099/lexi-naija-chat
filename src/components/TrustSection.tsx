@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { Shield, Lock, Award, CheckCircle } from "lucide-react";
-import gtbankLogo from "@/assets/gtbank-logo.png";
-import ubaLogo from "@/assets/uba-logo.png";
-import firstbankLogo from "@/assets/firstbank-logo.png";
-import zenithLogo from "@/assets/zenith-logo.png";
+import gtcoLogo from "@/assets/gtco-logo.png";
+import ubaLogo from "@/assets/uba-logo-real.png";
+import firstbankLogo from "@/assets/firstbank-logo-real.png";
+import zenithLogo from "@/assets/zenith-logo-real.png";
+import accessBankLogo from "@/assets/access-bank-logo.png";
+import opayLogo from "@/assets/opay-logo.png";
 
 const trustSignals = [
   {
@@ -29,10 +31,12 @@ const trustSignals = [
 ];
 
 const nigerianBanks = [
-  { name: "GTBank", logo: gtbankLogo },
   { name: "UBA", logo: ubaLogo },
+  { name: "Access Bank", logo: accessBankLogo },
   { name: "First Bank", logo: firstbankLogo },
-  { name: "Zenith Bank", logo: zenithLogo }
+  { name: "Zenith Bank", logo: zenithLogo },
+  { name: "GTCO", logo: gtcoLogo },
+  { name: "Opay", logo: opayLogo }
 ];
 
 export const TrustSection = () => {
@@ -85,9 +89,9 @@ export const TrustSection = () => {
           className="text-center"
         >
           <h3 className="text-2xl font-semibold mb-8">
-            Integrated with Nigeria's Top Banks
+            Integrated with Nigeria's Leading Banks & Fintechs
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-4xl mx-auto">
             {nigerianBanks.map((bank, index) => (
               <motion.div
                 key={bank.name}
