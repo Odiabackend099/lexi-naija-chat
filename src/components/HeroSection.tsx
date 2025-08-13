@@ -43,11 +43,11 @@ export const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl lg:text-6xl font-bold leading-tight"
             >
-              Your Personal AI{" "}
+              Imagine ChatGPT-5{" "}
               <span className="bg-gradient-accent bg-clip-text text-transparent">
-                Financial Assistant,
+                Serving as Your Personal AI
               </span>{" "}
-              Anytime, Anywhere
+              Financial Assistant, Anytime, Anywhere
             </motion.h1>
             
             <motion.p
