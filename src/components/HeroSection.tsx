@@ -1,9 +1,9 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { MessageCircle, ArrowRight, Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { AnimatedPhone } from "./AnimatedPhone";
+import { Play } from "lucide-react";
+import AnimatedPhoneDemo from "./chat/AnimatedPhoneDemo";
 import { FloatingElements3D } from "./FloatingElements3D";
 import { ParallaxContainer, ParallaxLayer } from "./ParallaxContainer";
+import { WhatsAppCTA } from "./integrations/WhatsAppCTA";
 import { useRef } from "react";
 
 export const HeroSection = () => {
@@ -132,20 +132,13 @@ export const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <motion.button
-              onClick={handleWhatsAppCTA}
-              className="bg-whatsapp-green hover:bg-whatsapp-green/90 text-white px-8 py-4 text-lg font-semibold rounded-xl flex items-center gap-3 shadow-glow transition-all duration-300 preserve-3d"
-              whileHover={{ 
-                scale: 1.05,
-                rotateX: 5,
-                rotateY: -5
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <MessageCircle className="w-5 h-5" />
-              Start Free Trial in WhatsApp
-              <ArrowRight className="w-5 h-5" />
-            </motion.button>
+            <WhatsAppCTA
+              variant="primary"
+              size="lg"
+              messageTemplate="trial"
+              context="hero_cta"
+              className="shadow-glow preserve-3d"
+            />
             
             <motion.button
               className="px-8 py-4 text-lg font-semibold rounded-xl border border-border hover:bg-card/50 flex items-center gap-3 transition-all duration-300 glass preserve-3d"
@@ -191,7 +184,7 @@ export const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="relative"
           >
-            <AnimatedPhone />
+            <AnimatedPhoneDemo />
           </motion.div>
         </ParallaxContainer>
       </div>
