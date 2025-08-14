@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.payment-success]
 verify_jwt = false
+
+[functions.cleanup-sessions]
+verify_jwt = false

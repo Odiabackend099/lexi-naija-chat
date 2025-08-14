@@ -17,6 +17,24 @@ const supabaseUrl = Deno.env.get('SUPABASE_URL')!
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
+// Rate limiting store (in-memory for edge function)
+const rateLimitStore = new Map()
+
+// Security audit logging
+async function logSecurityEvent(phone: string, eventType: string, eventData: any, req: Request) {
+  try {
+    await supabase.from('security_audit').insert({
+      phone,
+      event_type: eventType,
+      event_data: eventData,
+      ip_address: req.headers.get('cf-connecting-ip') || req.headers.get('x-forwarded-for') || 'unknown',
+      user_agent: req.headers.get('user-agent') || 'unknown'
+    })
+  } catch (error) {
+    console.error('Failed to log security event:', error)
+  }
+}
+
 // Helper functions
 async function createHmac(message: string): Promise<string> {
   const encoder = new TextEncoder()
@@ -53,6 +71,32 @@ function parseTransferCommand(body: string = '') {
   return null
 }
 
+function validateEmail(email: string): boolean {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  return emailRegex.test(email) && email.length <= 254
+}
+
+function validatePin(pin: string): boolean {
+  return /^\d{4}$/.test(pin.replace(/\D/g, ''))
+}
+
+function checkRateLimit(phone: string, action: string): boolean {
+  const key = `${phone}:${action}`
+  const now = Date.now()
+  const windowMs = 15 * 60 * 1000 // 15 minutes
+  
+  if (!rateLimitStore.has(key)) {
+    rateLimitStore.set(key, [now])
+    return true
+  }
+  
+  const attempts = rateLimitStore.get(key).filter((time: number) => now - time < windowMs)
+  attempts.push(now)
+  rateLimitStore.set(key, attempts)
+  
+  return attempts.length <= 3 // Max 3 attempts per 15 minutes
+}
+
 async function sendWhatsApp(to: string, body: string) {
   if (!TWILIO_SID || !TWILIO_TOKEN || !TWILIO_FROM) {
     throw new Error('Twilio credentials not configured')
@@ -82,6 +126,9 @@ async function sendWhatsApp(to: string, body: string) {
 }
 
 async function getSession(phone: string) {
+  // Clean up expired sessions first
+  await supabase.rpc('cleanup_expired_sessions')
+  
   const { data, error } = await supabase
     .from('sessions')
     .select('*')
@@ -90,12 +137,17 @@ async function getSession(phone: string) {
     
   if (error) throw error
   
-  if (data) return data
+  // Check if session exists and is not expired
+  if (data && new Date(data.expires_at) > new Date()) {
+    return data
+  }
   
+  // Create new session with expiration
   const newSession = { 
     phone, 
     step: 'start', 
     tmp: {},
+    expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours
     updated_at: new Date().toISOString()
   }
   
@@ -111,6 +163,7 @@ async function getSession(phone: string) {
 
 async function saveSession(phone: string, patch: any) {
   patch.updated_at = new Date().toISOString()
+  patch.expires_at = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // Extend expiration
   
   const { data, error } = await supabase
     .from('sessions')
@@ -183,29 +236,33 @@ serve(async (req) => {
 
     if (session.step === 'start') {
       await saveSession(from, { step: 'ask_email', tmp: {} })
+      await logSecurityEvent(from, 'session_started', {}, req)
       await reply('Welcome to LexiPay AI (by ODIA.dev). Please reply with your email to continue.')
       return new Response('OK', { status: 200, headers: corsHeaders })
     }
 
     if (session.step === 'ask_email') {
-      const email = text.includes('@') ? text : null
-      if (!email) {
+      if (!validateEmail(text)) {
+        await logSecurityEvent(from, 'invalid_email_attempt', { email_input: text.substring(0, 50) }, req)
         await reply('That email looks invalid. Please send a valid email (e.g., name@example.com).')
         return new Response('OK', { status: 200, headers: corsHeaders })
       }
-      await saveSession(from, { step: 'set_pin', email })
+      await saveSession(from, { step: 'set_pin', email: text })
+      await logSecurityEvent(from, 'email_set', { email: text }, req)
       await reply('Great. Now set a 4-digit PIN (e.g., 1234). You\'ll use this to confirm transfers.')
       return new Response('OK', { status: 200, headers: corsHeaders })
     }
 
     if (session.step === 'set_pin') {
       const pin = text.replace(/\D/g, '')
-      if (!/^\d{4}$/.test(pin)) {
+      if (!validatePin(text)) {
+        await logSecurityEvent(from, 'invalid_pin_format', { pin_length: pin.length }, req)
         await reply('PIN must be 4 digits. Try again.')
         return new Response('OK', { status: 200, headers: corsHeaders })
       }
       const pinHash = await createHmac(pin)
-      await saveSession(from, { step: 'ready', pin_hash: pinHash, tmp: {} })
+      await saveSession(from, { step: 'ready', pin_hash: pinHash, tmp: {}, pin_attempts: 0 })
+      await logSecurityEvent(from, 'pin_set', {}, req)
       await reply('Setup done ✅\nTry: "send 5000 to 0123456789"')
       return new Response('OK', { status: 200, headers: corsHeaders })
     }
@@ -214,6 +271,7 @@ serve(async (req) => {
       const transfer = parseTransferCommand(text)
       if (transfer) {
         await saveSession(from, { step: 'confirm_pin', tmp: transfer })
+        await logSecurityEvent(from, 'transfer_initiated', { amount: transfer.amount, account: transfer.account }, req)
         await reply(`Confirm transfer of ₦${transfer.amount.toLocaleString()} to ${transfer.account}.\nEnter your 4-digit PIN to approve.`)
         return new Response('OK', { status: 200, headers: corsHeaders })
       }
@@ -223,9 +281,27 @@ serve(async (req) => {
 
     if (session.step === 'confirm_pin') {
       const pin = text.replace(/\D/g, '')
+      
+      // Check rate limiting for PIN attempts
+      if (!checkRateLimit(from, 'pin_attempt')) {
+        await logSecurityEvent(from, 'pin_rate_limit_exceeded', {}, req)
+        await reply('❌ Too many PIN attempts. Please wait 15 minutes before trying again.')
+        return new Response('OK', { status: 200, headers: corsHeaders })
+      }
+      
+      // Check database rate limiting
+      const { data: canAttempt } = await supabase.rpc('check_pin_rate_limit', { session_phone: from })
+      if (!canAttempt) {
+        await logSecurityEvent(from, 'pin_db_rate_limit_exceeded', {}, req)
+        await reply('❌ Too many PIN attempts. Please wait 15 minutes before trying again.')
+        return new Response('OK', { status: 200, headers: corsHeaders })
+      }
+      
       const pinHash = await createHmac(pin)
       
       if (pinHash !== session.pin_hash) {
+        await supabase.rpc('increment_pin_attempts', { session_phone: from })
+        await logSecurityEvent(from, 'pin_attempt_failed', {}, req)
         await reply('❌ PIN incorrect. Try again.')
         return new Response('OK', { status: 200, headers: corsHeaders })
       }
@@ -234,12 +310,15 @@ serve(async (req) => {
       const payment = await createFlutterwaveLink(amount, from, { account, phone: from })
       await saveSession(from, { 
         step: 'await_payment', 
-        tmp: { ...session.tmp, tx_ref: payment.tx_ref } 
+        tmp: { ...session.tmp, tx_ref: payment.tx_ref },
+        pin_attempts: 0 // Reset attempts on successful PIN
       })
+      await logSecurityEvent(from, 'payment_initiated', { amount, account, tx_ref: payment.tx_ref }, req)
 
       if (payment.link) {
         await reply(`Approve this payment to complete your transfer:\n${payment.link}`)
       } else {
+        await logSecurityEvent(from, 'payment_link_creation_failed', { amount, account }, req)
         await reply('Could not create payment link at the moment. Please try again in a bit.')
       }
       return new Response('OK', { status: 200, headers: corsHeaders })
@@ -252,6 +331,7 @@ serve(async (req) => {
 
     // Fallback
     await saveSession(from, { step: 'start', tmp: {} })
+    await logSecurityEvent(from, 'session_reset', { reason: 'unknown_step' }, req)
     await reply('Say "hi" to begin.')
     return new Response('OK', { status: 200, headers: corsHeaders })
 

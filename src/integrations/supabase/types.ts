@@ -7,20 +7,99 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
-      [_ in never]: never
+      security_audit: {
+        Row: {
+          created_at: string | null
+          event_data: Json | null
+          event_type: string
+          id: string
+          ip_address: string | null
+          phone: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: string | null
+          phone: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: string | null
+          phone?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      sessions: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          expires_at: string | null
+          last_pin_attempt: string | null
+          phone: string
+          pin_attempts: number | null
+          pin_hash: string | null
+          step: string | null
+          tmp: Json | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          expires_at?: string | null
+          last_pin_attempt?: string | null
+          phone: string
+          pin_attempts?: number | null
+          pin_hash?: string | null
+          step?: string | null
+          tmp?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          expires_at?: string | null
+          last_pin_attempt?: string | null
+          phone?: string
+          pin_attempts?: number | null
+          pin_hash?: string | null
+          step?: string | null
+          tmp?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_pin_rate_limit: {
+        Args: { session_phone: string }
+        Returns: boolean
+      }
+      cleanup_expired_sessions: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      increment_pin_attempts: {
+        Args: { session_phone: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

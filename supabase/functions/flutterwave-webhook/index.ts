@@ -6,7 +6,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-// Environment variables
 const TWILIO_SID = Deno.env.get('TWILIO_ACCOUNT_SID')
 const TWILIO_TOKEN = Deno.env.get('TWILIO_AUTH_TOKEN')
 const TWILIO_FROM = Deno.env.get('TWILIO_WHATSAPP_FROM')
@@ -44,10 +43,25 @@ async function sendWhatsApp(to: string, body: string) {
   return response.json()
 }
 
+// Security audit logging for webhook events
+async function logWebhookEvent(eventType: string, eventData: any, req: Request) {
+  try {
+    await supabase.from('security_audit').insert({
+      phone: eventData.phone || 'webhook',
+      event_type: eventType,
+      event_data: eventData,
+      ip_address: req.headers.get('cf-connecting-ip') || req.headers.get('x-forwarded-for') || 'unknown',
+      user_agent: req.headers.get('user-agent') || 'unknown'
+    })
+  } catch (error) {
+    console.error('Failed to log webhook event:', error)
+  }
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { headers: corsHeaders })
   }
 
   if (req.method !== 'POST') {
@@ -61,11 +75,10 @@ serve(async (req) => {
   }
 
   try {
+    // Verify Flutterwave signature if hash is configured
     const signature = req.headers.get('verif-hash') || req.headers.get('verif_hash')
-    
-    // Verify Flutterwave signature
     if (FLW_HASH && signature !== FLW_HASH) {
-      console.error('Invalid Flutterwave signature')
+      await logWebhookEvent('webhook_signature_invalid', { signature }, req)
       return new Response(
         JSON.stringify({ error: 'invalid_signature' }),
         { 
@@ -78,13 +91,20 @@ serve(async (req) => {
     const event = await req.json()
     console.log('Flutterwave webhook received:', event)
 
+    // Log all webhook events for audit
+    await logWebhookEvent('flutterwave_webhook_received', { 
+      event: event.event, 
+      status: event?.data?.status,
+      amount: event?.data?.amount,
+      tx_ref: event?.data?.tx_ref 
+    }, req)
+
     // Handle successful payment
     if (event?.event === 'charge.completed' && event?.data?.status === 'successful') {
       const phone = event?.data?.customer?.phonenumber
       const account = event?.data?.meta?.account || 'the destination account'
       const amount = event?.data?.amount
-
-      console.log('Processing successful payment:', { phone, account, amount })
+      const tx_ref = event?.data?.tx_ref
 
       if (phone) {
         const to = phone.startsWith('whatsapp:') ? phone : `whatsapp:${phone}`
@@ -93,24 +113,36 @@ serve(async (req) => {
         try {
           await sendWhatsApp(to, message)
           console.log('WhatsApp notification sent successfully')
-        } catch (whatsappError) {
-          console.error('Failed to send WhatsApp notification:', whatsappError)
-        }
-
-        // Mark session back to ready
-        try {
+          
+          // Update session back to ready state
           await supabase
             .from('sessions')
-            .update({ 
-              step: 'ready', 
-              tmp: {},
-              updated_at: new Date().toISOString()
-            })
+            .update({ step: 'ready', tmp: {}, updated_at: new Date().toISOString() })
             .eq('phone', to)
-          console.log('Session updated successfully')
-        } catch (sessionError) {
-          console.error('Failed to update session:', sessionError)
+
+          await logWebhookEvent('payment_success_notification_sent', {
+            phone: to,
+            amount,
+            account,
+            tx_ref
+          }, req)
+        } catch (error) {
+          console.error('Failed to send WhatsApp notification:', error)
+          await logWebhookEvent('payment_notification_failed', {
+            phone: to,
+            amount,
+            account,
+            tx_ref,
+            error: error.message
+          }, req)
         }
+      } else {
+        console.error('No phone number found in payment data')
+        await logWebhookEvent('payment_success_no_phone', {
+          amount,
+          account,
+          tx_ref
+        }, req)
       }
     }
 
@@ -124,6 +156,8 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Flutterwave webhook error:', error)
+    await logWebhookEvent('webhook_error', { error: error.message }, req)
+    
     return new Response(
       JSON.stringify({ error: 'server_error' }),
       { 
