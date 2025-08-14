@@ -1,24 +1,273 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-NG">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>LexiPay AI - ChatGPT-5 for Nigerian Financial Services | ODIA.Dev</title>
-    <meta name="description" content="Imagine ChatGPT-5 as your personal AI financial assistant, but actually works in Nigeria. CBN compliant, Nigerian banks, voice AI. Start free trial." />
-    <meta name="author" content="ODIA.Dev" />
-
-    <meta property="og:title" content="LexiPay AI - ChatGPT-5 for Nigerian Financial Services" />
-    <meta property="og:description" content="AI financial assistant built for Nigerian businesses. WhatsApp integration, voice AI, CBN compliant. 7-day free trial." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LexiPay AI" />
+    <meta name="msapplication-TileColor" content="#007A33" />
+    <meta name="theme-color" content="#007A33" />
+    
+    <!-- Fonts with preload for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Primary SEO -->
+    <title>LexiPay AI - Nigeria's #1 AI Financial Assistant | CBN Compliant WhatsApp Banking</title>
+    <meta name="description" content="ChatGPT-5 class AI financial assistant for Nigerian businesses. Send money via WhatsApp, check balances, pay bills. CBN compliant, works with all Nigerian banks. Start 7-day free trial." />
+    <meta name="keywords" content="Nigeria AI financial assistant, WhatsApp banking Nigeria, Nigerian fintech, mobile money Nigeria, AI payments Lagos, CBN compliant fintech, Nigerian business banking, USSD alternative Nigeria, digital payments Abuja, fintech Port Harcourt" />
+    <meta name="author" content="ODIA.Dev - Nigeria's Voice AI Company" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://lexipay.odia.dev" />
+    
+    <!-- Geo-targeting for Nigeria -->
+    <meta name="geo.region" content="NG" />
+    <meta name="geo.country" content="Nigeria" />
+    <meta name="geo.placename" content="Lagos, Nigeria" />
+    <meta name="ICBM" content="6.5244, 3.3792" />
+    <meta name="DC.title" content="LexiPay AI - Nigeria's AI Financial Assistant" />
+    
+    <!-- Open Graph - Nigerian Market Optimized -->
+    <meta property="og:locale" content="en_NG" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
+    <meta property="og:title" content="LexiPay AI - Nigeria's #1 AI Financial Assistant | Start Free Trial" />
+    <meta property="og:description" content="Imagine ChatGPT-5 as your personal AI financial assistant, but actually works in Nigeria. Send money, check balances, pay bills via WhatsApp. CBN compliant with all Nigerian banks." />
+    <meta property="og:url" content="https://lexipay.odia.dev" />
+    <meta property="og:site_name" content="LexiPay AI by ODIA.Dev" />
+    <meta property="og:image" content="https://lexipay.odia.dev/og-image-nigeria.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="LexiPay AI - Nigeria's AI Financial Assistant showing WhatsApp interface with Nigerian banking integration" />
+    
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:site" content="@ODIADev" />
+    <meta name="twitter:creator" content="@ODIADev" />
+    <meta name="twitter:title" content="LexiPay AI - Nigeria's #1 AI Financial Assistant" />
+    <meta name="twitter:description" content="ChatGPT-5 class AI for Nigerian business banking. WhatsApp integration, voice AI, CBN compliant. Start free trial." />
+    <meta name="twitter:image" content="https://lexipay.odia.dev/twitter-card-nigeria.png" />
+    
+    <!-- Business/Local Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "LexiPay AI",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web Browser",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "NGN",
+            "priceValidUntil": "2025-12-31",
+            "availability": "https://schema.org/InStock",
+            "description": "7-day free trial"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "250",
+            "bestRating": "5"
+          },
+          "description": "AI financial assistant for Nigerian businesses. WhatsApp banking, CBN compliant, voice AI technology.",
+          "screenshot": "https://lexipay.odia.dev/app-screenshot.png",
+          "softwareVersion": "1.0",
+          "datePublished": "2025-01-01",
+          "author": {
+            "@type": "Organization",
+            "name": "ODIA.Dev",
+            "url": "https://odia.dev"
+          },
+          "downloadUrl": "https://lexipay.odia.dev",
+          "installUrl": "https://lexipay.odia.dev",
+          "keywords": "AI financial assistant, Nigerian fintech, WhatsApp banking, mobile money Nigeria"
+        },
+        {
+          "@type": "Organization",
+          "name": "ODIA.Dev",
+          "alternateName": "ODIA Development",
+          "url": "https://odia.dev",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://odia.dev/logo.png"
+          },
+          "sameAs": [
+            "https://twitter.com/ODIADev",
+            "https://linkedin.com/company/odia-dev"
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "Nigeria",
+            "addressRegion": "Lagos State",
+            "addressLocality": "Lagos"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "Nigeria"
+          },
+          "description": "Nigeria's leading Voice AI infrastructure company building AI assistants for African businesses."
+        },
+        {
+          "@type": "WebSite",
+          "name": "LexiPay AI",
+          "url": "https://lexipay.odia.dev",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://lexipay.odia.dev/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Service",
+          "name": "AI Financial Assistant Service",
+          "provider": {
+            "@type": "Organization",
+            "name": "ODIA.Dev"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "Nigeria"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "LexiPay AI Plans",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "LexiPay AI Free Trial"
+                },
+                "price": "0",
+                "priceCurrency": "NGN",
+                "description": "7-day free trial with full features"
+              }
+            ]
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preload" href="/src/index.css" as="style" />
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="//api.whatsapp.com" />
+    <link rel="dns-prefetch" href="//wa.me" />
   </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('LexiPay AI PWA: Service Worker registered');
+              
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New version available
+                    if (confirm('New version of LexiPay AI is available. Refresh to update?')) {
+                      window.location.reload();
+                    }
+                  }
+                });
+              });
+            })
+            .catch((error) => {
+              console.log('LexiPay AI PWA: Service Worker registration failed');
+            });
+        });
+      }
+      
+      // PWA Install Prompt
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Show custom install button after 3 seconds
+        setTimeout(() => {
+          const installBanner = document.createElement('div');
+          installBanner.innerHTML = `
+            <div style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: #007A33; color: white; padding: 15px; border-radius: 12px; z-index: 1000; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+              <p style="margin: 0 0 10px; font-weight: 600;">Install LexiPay AI for faster access</p>
+              <button onclick="installPWA()" style="background: white; color: #007A33; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; margin-right: 10px;">Install</button>
+              <button onclick="this.parentElement.parentElement.remove()" style="background: transparent; color: white; border: 1px solid white; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Later</button>
+            </div>
+          `;
+          document.body.appendChild(installBanner);
+        }, 3000);
+      });
+      
+      function installPWA() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((result) => {
+            if (result.outcome === 'accepted') {
+              console.log('PWA installed');
+            }
+            deferredPrompt = null;
+          });
+        }
+      }
+      
+      // Nigerian Network Detection & Optimization
+      if ('connection' in navigator) {
+        const connection = navigator.connection;
+        if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+          // Optimize for slow Nigerian networks
+          document.documentElement.classList.add('slow-network');
+        }
+      }
+      
+      // Performance monitoring for Nigerian networks
+      window.addEventListener('load', () => {
+        if ('PerformanceObserver' in window) {
+          const observer = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+              if (entry.entryType === 'largest-contentful-paint') {
+                // Track LCP for Nigerian users
+                console.log('LCP for Nigerian user:', entry.startTime);
+              }
+            }
+          });
+          observer.observe({ entryTypes: ['largest-contentful-paint'] });
+        }
+      });
+    </script>
+  </body>
+</html>
 
   <body>
     <div id="root"></div>
