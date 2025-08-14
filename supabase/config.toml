@@ -1,1 +1,13 @@
 project_id = "gzsfdghxiuhpgwdfwegj"
+
+[functions.health]
+verify_jwt = false
+
+[functions.whatsapp-webhook]  
+verify_jwt = false
+
+[functions.flutterwave-webhook]
+verify_jwt = false
+
+[functions.payment-success]
+verify_jwt = false
