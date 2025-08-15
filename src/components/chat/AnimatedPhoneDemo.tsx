@@ -78,9 +78,9 @@ export const AnimatedPhoneDemo: React.FC<AnimatedPhoneDemoProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      {/* Phone Container */}
+      {/* Phone Container - Performance Optimized */}
       <motion.div
-        className="relative mx-auto"
+        className="relative mx-auto will-change-transform"
         style={{ width: '300px', height: '600px' }}
         onMouseEnter={() => {
           setIsHovered(true);
@@ -90,8 +90,8 @@ export const AnimatedPhoneDemo: React.FC<AnimatedPhoneDemoProps> = ({
           setIsHovered(false);
           setIsPaused(false);
         }}
-        whileHover={{ scale: 1.02 }}
-        transition={{ duration: 0.3 }}
+        whileHover={{ scale: 1.01 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
       >
         {/* iPhone Frame */}
         <div className="relative w-full h-full">
@@ -191,29 +191,29 @@ export const AnimatedPhoneDemo: React.FC<AnimatedPhoneDemoProps> = ({
           </AnimatePresence>
         </div>
 
-        {/* Floating Elements */}
+        {/* Floating Elements - Performance Optimized */}
         <motion.div
-          className="absolute -top-4 -right-4 w-8 h-8 bg-success-gold rounded-full opacity-60"
+          className="absolute -top-4 -right-4 w-8 h-8 bg-success-gold rounded-full opacity-60 will-change-transform"
           animate={{
-            y: [0, -10, 0],
-            rotate: [0, 180, 360]
+            y: [0, -8, 0]
           }}
           transition={{
-            duration: 6,
+            duration: 4,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
+            repeatType: "reverse"
           }}
         />
         <motion.div
-          className="absolute -bottom-6 -left-6 w-6 h-6 bg-secondary rounded-full opacity-60"
+          className="absolute -bottom-6 -left-6 w-6 h-6 bg-secondary rounded-full opacity-60 will-change-transform"
           animate={{
-            y: [0, 10, 0],
-            rotate: [360, 180, 0]
+            y: [0, 8, 0]
           }}
           transition={{
-            duration: 8,
+            duration: 5,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
+            repeatType: "reverse"
           }}
         />
       </motion.div>

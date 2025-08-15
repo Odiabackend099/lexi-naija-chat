@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChatAnimation } from "./ChatAnimation";
 import whatsappLogo from "@/assets/whatsapp-logo.png";
 
@@ -9,13 +9,18 @@ export const AnimatedPhone = () => {
   return (
     <div className="relative flex justify-center items-center">
       <motion.div
-        className="relative"
-        initial={{ rotateY: -15, scale: 0.8 }}
+        className="relative will-change-transform"
+        initial={{ rotateY: -10, scale: 0.9, opacity: 0 }}
         animate={{ 
-          rotateY: isHovered ? 0 : -15, 
-          scale: isHovered ? 0.95 : 0.8 
+          rotateY: isHovered ? 0 : -10, 
+          scale: isHovered ? 1 : 0.9,
+          opacity: 1
         }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ 
+          duration: 0.4, 
+          ease: [0.25, 0.46, 0.45, 0.94],
+          opacity: { duration: 0.6 }
+        }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         style={{ perspective: "1000px" }}
@@ -60,17 +65,27 @@ export const AnimatedPhone = () => {
         )}
       </motion.div>
 
-      {/* Floating Elements */}
+      {/* Floating Elements - Optimized */}
       <motion.div
-        className="absolute -top-10 -right-10 w-6 h-6 bg-success-gold rounded-full"
-        animate={{ y: [-10, 10, -10] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -top-10 -right-10 w-6 h-6 bg-success-gold rounded-full will-change-transform"
+        animate={{ y: [0, 20, 0] }}
+        transition={{ 
+          duration: 4, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          repeatType: "reverse"
+        }}
       />
       
       <motion.div
-        className="absolute -bottom-10 -left-10 w-4 h-4 bg-secondary rounded-full"
-        animate={{ y: [10, -10, 10] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -bottom-10 -left-10 w-4 h-4 bg-secondary rounded-full will-change-transform"
+        animate={{ y: [0, -15, 0] }}
+        transition={{ 
+          duration: 5, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          repeatType: "reverse"
+        }}
       />
     </div>
   );

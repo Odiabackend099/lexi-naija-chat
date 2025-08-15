@@ -134,12 +134,12 @@ export const UseCasesSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: index * 0.1 + 0.5 }}
                   >
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      {useCase.title}
-                    </h3>
-                    <p className="text-white/90 text-sm leading-relaxed">
-                      {useCase.description}
-                    </p>
+                     <h3 className="text-xl font-bold text-white mb-2 drop-shadow-lg">
+                       {useCase.title}
+                     </h3>
+                     <p className="text-white text-sm leading-relaxed drop-shadow-md font-medium">
+                       {useCase.description}
+                     </p>
                   </motion.div>
                 </div>
               </div>

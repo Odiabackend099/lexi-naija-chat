@@ -121,6 +121,8 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground overflow-x-hidden;
     font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+    -webkit-scroll-behavior: smooth;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -201,11 +203,45 @@ All colors MUST be HSL.
   .shadow-premium { box-shadow: var(--shadow-premium); }
   .shadow-glow { box-shadow: var(--shadow-glow); }
   
-  /* Parallax and 3D utilities */
-  .parallax-slow { transform: translateZ(0); will-change: transform; }
-  .parallax-medium { transform: translateZ(0); will-change: transform; }
-  .parallax-fast { transform: translateZ(0); will-change: transform; }
+  /* Parallax and 3D utilities - Optimized */
+  .parallax-slow { 
+    transform: translateZ(0); 
+    will-change: transform; 
+    backface-visibility: hidden;
+  }
+  .parallax-medium { 
+    transform: translateZ(0); 
+    will-change: transform; 
+    backface-visibility: hidden;
+  }
+  .parallax-fast { 
+    transform: translateZ(0); 
+    will-change: transform; 
+    backface-visibility: hidden;
+  }
   
-  .preserve-3d { transform-style: preserve-3d; }
-  .perspective { perspective: 1000px; }
+  .preserve-3d { 
+    transform-style: preserve-3d; 
+    backface-visibility: hidden;
+  }
+  .perspective { 
+    perspective: 1000px; 
+    transform: translateZ(0);
+  }
+  
+  /* Performance optimizations */
+  .will-change-transform { will-change: transform; }
+  .will-change-auto { will-change: auto; }
+  
+  /* Smooth scrolling for all browsers */
+  html {
+    scroll-behavior: smooth;
+    -webkit-scroll-behavior: smooth;
+  }
+  
+  /* Improved text contrast */
+  .contrast-enhanced {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+  }
 }
