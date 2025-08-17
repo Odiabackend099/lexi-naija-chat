@@ -10,6 +10,7 @@ import { CEOSection } from "./CEOSection";
 import { PricingSection } from "./PricingSection";
 import { FAQSection } from "./FAQSection";
 import { Footer } from "./Footer";
+import TalkButton from "./TalkButton";
 
 export const LandingPage = () => {
   const { scrollYProgress } = useScroll();
@@ -28,6 +29,14 @@ export const LandingPage = () => {
       />
       
       <HeroSection />
+      
+      {/* ODIA TTS Demo */}
+      <section className="py-12 bg-background">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl font-bold mb-6">Try ODIA Voice AI</h2>
+          <TalkButton />
+        </div>
+      </section>
       
       {/* Parallax Sections */}
       <ParallaxContainer speed={0.2}>
