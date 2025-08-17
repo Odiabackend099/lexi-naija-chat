@@ -91,15 +91,15 @@ export const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl lg:text-6xl font-bold leading-tight preserve-3d"
+              className="text-4xl lg:text-6xl font-bold leading-tight preserve-3d text-foreground"
             >
-              <span className="inline-block">
+              <span className="inline-block text-foreground">
                 Imagine ChatGPT-5{" "}
               </span>
-              <span className="bg-gradient-accent bg-clip-text text-transparent font-extrabold">
+              <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent font-extrabold">
                 as Your Personal AI
               </span>{" "}
-              Financial Assistant
+              <span className="text-foreground">Financial Assistant</span>
             </motion.h1>
             
             <motion.p

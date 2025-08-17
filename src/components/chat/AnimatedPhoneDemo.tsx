@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, SkipForward, Volume2 } from 'lucide-react';
+import { Play, Pause, SkipForward, Volume2, Mic } from 'lucide-react';
 import { ChatMessages } from './ChatMessages';
 import { chatScenarios, ScenarioHelpers } from '@/data/chatScenarios';
 import { WhatsAppCTA } from '@/components/integrations/WhatsAppCTA';
@@ -93,48 +93,90 @@ export const AnimatedPhoneDemo: React.FC<AnimatedPhoneDemoProps> = ({
         whileHover={{ scale: 1.01 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
       >
-        {/* iPhone Frame */}
+        {/* Realistic iPhone Frame */}
         <div className="relative w-full h-full">
-          {/* Phone Bezel */}
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-800 to-gray-900 rounded-[3rem] shadow-premium">
-            {/* Screen */}
-            <div className="absolute inset-0 m-3 bg-black rounded-[2.5rem] overflow-hidden">
-              {/* Status Bar */}
-              <div className="h-12 bg-black flex items-center justify-between px-6 text-white text-sm">
-                <span className="font-medium">9:41</span>
+          {/* Phone Bezel - More realistic iPhone design */}
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 rounded-[3.5rem] shadow-[0_0_50px_rgba(0,0,0,0.3)] border border-gray-700/50">
+            {/* Screen with realistic bezels */}
+            <div className="absolute inset-[6px] bg-black rounded-[3rem] overflow-hidden">
+              {/* Dynamic Island */}
+              <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-7 bg-black rounded-full z-10"></div>
+              
+              {/* Status Bar - Real iOS style */}
+              <div className="h-14 bg-black flex items-center justify-between px-8 pt-2 text-white text-sm font-medium">
+                <span>9:41</span>
                 <div className="flex items-center gap-1">
-                  <div className="w-1 h-1 bg-white rounded-full"></div>
-                  <div className="w-1 h-1 bg-white rounded-full"></div>
-                  <div className="w-1 h-1 bg-white rounded-full"></div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-6 h-3 border border-white rounded-sm">
-                    <div className="w-4 h-1 bg-white rounded-sm m-0.5"></div>
-                  </div>
+                  <svg className="w-4 h-3" viewBox="0 0 24 18" fill="white">
+                    <rect width="5" height="12" rx="1"/>
+                    <rect x="7" width="5" height="16" rx="1"/>
+                    <rect x="14" width="5" height="8" rx="1"/>
+                    <rect x="21" width="3" height="4" rx="1"/>
+                  </svg>
+                  <svg className="w-6 h-4" viewBox="0 0 24 16" fill="none">
+                    <rect x="2" y="3" width="20" height="10" rx="5" stroke="white" strokeWidth="1"/>
+                    <rect x="22" y="6" width="2" height="4" rx="1" fill="white"/>
+                  </svg>
+                  <span className="text-xs">100%</span>
                 </div>
               </div>
 
-              {/* WhatsApp Header */}
-              <div className="h-16 bg-whatsapp-green flex items-center px-4 gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+              {/* Real WhatsApp Header */}
+              <div className="h-16 bg-[#075E54] flex items-center px-4 gap-3 border-b border-black/10">
+                <motion.button 
+                  className="p-2 -ml-2 rounded-full hover:bg-white/10"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                  </svg>
+                </motion.button>
+                
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-sm">
                   <span className="text-xl">🤖</span>
                 </div>
+                
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold">Lexi AI</h3>
-                  <p className="text-white/80 text-xs">ODIA.Dev Assistant • Online</p>
+                  <h3 className="text-white font-semibold text-base">Lexi AI</h3>
+                  <p className="text-white/80 text-xs flex items-center gap-1">
+                    <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                    Online • ODIA.Dev Assistant
+                  </p>
                 </div>
-                <div className="flex gap-2">
-                  <Volume2 className="w-5 h-5 text-white/80" />
+                
+                <div className="flex gap-6">
+                  <motion.button 
+                    className="p-2 rounded-full hover:bg-white/10"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"/>
+                    </svg>
+                  </motion.button>
+                  <motion.button 
+                    className="p-2 rounded-full hover:bg-white/10"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <Volume2 className="w-6 h-6 text-white" />
+                  </motion.button>
+                  <motion.button 
+                    className="p-2 rounded-full hover:bg-white/10"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z"/>
+                    </svg>
+                  </motion.button>
                 </div>
               </div>
 
-              {/* Chat Area */}
-              <div className="flex-1 bg-gray-100 relative overflow-hidden">
-                {/* WhatsApp Background Pattern */}
+              {/* Chat Area - Real WhatsApp dark theme */}
+              <div className="flex-1 bg-[#0d1418] relative overflow-hidden">
+                {/* WhatsApp chat wallpaper pattern */}
                 <div 
-                  className="absolute inset-0 opacity-10"
+                  className="absolute inset-0 opacity-5"
                   style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M20 20c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8 8 3.6 8 8zm0 0c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8-8 3.6-8 8zM0 20c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8-8 3.6-8 8zm40 0c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8 8 3.6 8 8z'/%3E%3C/g%3E%3C/svg%3E")`,
+                    backgroundSize: '40px 40px'
                   }}
                 />
 
@@ -159,18 +201,28 @@ export const AnimatedPhoneDemo: React.FC<AnimatedPhoneDemoProps> = ({
                 </div>
               </div>
 
-              {/* WhatsApp Input */}
-              <div className="h-16 bg-gray-100 border-t border-gray-200 flex items-center px-4 gap-3">
-                <div className="flex-1 bg-white rounded-full px-4 py-2 flex items-center gap-2">
-                  <span className="text-gray-400 text-sm">Try this conversation →</span>
+              {/* Real WhatsApp Input */}
+              <div className="h-16 bg-[#1e1e1e] border-t border-gray-800 flex items-center px-4 gap-3">
+                <motion.button 
+                  className="p-2 rounded-full hover:bg-white/10"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <svg className="w-6 h-6 text-white/70" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9,11H15L12,8L9,11M11,2V7.5L5.5,12L11,16.5V22L20,13L11,2Z"/>
+                  </svg>
+                </motion.button>
+                
+                <div className="flex-1 bg-[#2d2d2d] rounded-full px-4 py-2 flex items-center gap-2">
+                  <span className="text-white/50 text-sm">Type a message</span>
                 </div>
-                <WhatsAppCTA
-                  variant="inline"
-                  messageTemplate="demo"
-                  text="Open"
-                  size="sm"
-                  className="text-whatsapp-green hover:text-whatsapp-green/80"
-                />
+                
+                <motion.button 
+                  className="w-12 h-12 bg-[#00a884] rounded-full flex items-center justify-center"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Mic className="w-6 h-6 text-white" />
+                </motion.button>
               </div>
             </div>
           </div>

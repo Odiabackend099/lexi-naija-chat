@@ -10,7 +10,7 @@ import { CEOSection } from "./CEOSection";
 import { PricingSection } from "./PricingSection";
 import { FAQSection } from "./FAQSection";
 import { Footer } from "./Footer";
-import TalkButton from "./TalkButton";
+import VoiceChatWidget from "./VoiceChatWidget";
 
 export const LandingPage = () => {
   const { scrollYProgress } = useScroll();
@@ -30,11 +30,19 @@ export const LandingPage = () => {
       
       <HeroSection />
       
-      {/* ODIA TTS Demo */}
-      <section className="py-12 bg-background">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold mb-6">Try ODIA Voice AI</h2>
-          <TalkButton />
+      {/* Voice Chat Demo */}
+      <section className="py-16 bg-muted/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4 text-foreground">Experience Voice AI</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Talk naturally with Lexi using our continuous voice conversation technology - 
+              no buttons to press, just speak and listen.
+            </p>
+          </div>
+          <div className="max-w-md mx-auto">
+            <VoiceChatWidget />
+          </div>
         </div>
       </section>
       

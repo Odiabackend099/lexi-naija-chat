@@ -8,27 +8,27 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* LexiPay AI Nigerian-First Design System - Fixed Contrast */
-    --background: 0 0% 4%; /* Rich black */
-    --foreground: 0 0% 98%; /* Near white for better contrast */
+    /* LexiPay AI Nigerian-First Design System - Enhanced Contrast */
+    --background: 0 0% 2%; /* Deeper black */
+    --foreground: 0 0% 100%; /* Pure white for maximum contrast */
 
-    --card: 0 0% 8%; /* Slightly elevated black */
-    --card-foreground: 0 0% 96%;
+    --card: 0 0% 6%; /* Slightly elevated black */
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 96%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 96%; /* Near white for CTAs */
-    --primary-foreground: 0 0% 6%;
+    --primary: 0 0% 100%; /* Pure white for CTAs */
+    --primary-foreground: 0 0% 2%;
 
-    --secondary: 120 100% 25%; /* Deeper Nigerian flag green for better contrast */
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 120 100% 35%; /* Brighter Nigerian flag green */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 75%; /* Better contrast */
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 85%; /* Much better contrast */
 
-    --accent: 30 100% 55%; /* Brighter sunset orange */
-    --accent-foreground: 0 0% 4%;
+    --accent: 30 100% 60%; /* Vibrant sunset orange */
+    --accent-foreground: 0 0% 2%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
@@ -243,5 +243,25 @@ All colors MUST be HSL.
   .contrast-enhanced {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
     font-weight: 600;
+  }
+  
+  /* Voice Chat Animations */
+  @keyframes voice-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+
+  .voice-pulse {
+    animation: voice-pulse 1.5s ease-in-out infinite;
+  }
+
+  /* Breathing animation for listening state */
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .breathe {
+    animation: breathe 3s ease-in-out infinite;
   }
 }
