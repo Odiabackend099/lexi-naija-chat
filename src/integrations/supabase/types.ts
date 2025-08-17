@@ -83,6 +83,87 @@ export type Database = {
         }
         Relationships: []
       }
+      tts_rate_limits: {
+        Row: {
+          blocked_until: string | null
+          created_at: string
+          id: string
+          request_count: number
+          request_ip: unknown
+          session_id: string | null
+          updated_at: string
+          user_id: string | null
+          window_start: string
+        }
+        Insert: {
+          blocked_until?: string | null
+          created_at?: string
+          id?: string
+          request_count?: number
+          request_ip: unknown
+          session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+          window_start?: string
+        }
+        Update: {
+          blocked_until?: string | null
+          created_at?: string
+          id?: string
+          request_count?: number
+          request_ip?: unknown
+          session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+          window_start?: string
+        }
+        Relationships: []
+      }
+      tts_usage_logs: {
+        Row: {
+          character_count: number
+          created_at: string
+          error_message: string | null
+          id: string
+          processing_time_ms: number | null
+          request_ip: unknown | null
+          session_id: string | null
+          status: string
+          text_content: string
+          user_agent: string | null
+          user_id: string | null
+          voice_model: string
+        }
+        Insert: {
+          character_count: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          processing_time_ms?: number | null
+          request_ip?: unknown | null
+          session_id?: string | null
+          status: string
+          text_content: string
+          user_agent?: string | null
+          user_id?: string | null
+          voice_model?: string
+        }
+        Update: {
+          character_count?: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          processing_time_ms?: number | null
+          request_ip?: unknown | null
+          session_id?: string | null
+          status?: string
+          text_content?: string
+          user_agent?: string | null
+          user_id?: string | null
+          voice_model?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -92,6 +173,14 @@ export type Database = {
         Args: { session_phone: string }
         Returns: boolean
       }
+      check_tts_rate_limit: {
+        Args: {
+          check_ip?: unknown
+          check_session_id?: string
+          check_user_id?: string
+        }
+        Returns: boolean
+      }
       cleanup_expired_sessions: {
         Args: Record<PropertyKey, never>
         Returns: number
@@ -99,6 +188,21 @@ export type Database = {
       increment_pin_attempts: {
         Args: { session_phone: string }
         Returns: undefined
+      }
+      log_tts_usage: {
+        Args: {
+          log_character_count?: number
+          log_error_message?: string
+          log_processing_time_ms?: number
+          log_request_ip?: unknown
+          log_session_id?: string
+          log_status?: string
+          log_text_content?: string
+          log_user_agent?: string
+          log_user_id?: string
+          log_voice_model?: string
+        }
+        Returns: string
       }
     }
     Enums: {

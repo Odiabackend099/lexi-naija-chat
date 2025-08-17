@@ -1,19 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, CheckCheck, Mic, Volume2, TrendingUp, Sparkles } from 'lucide-react';
+import { Check, CheckCheck, Mic, Volume2, VolumeX, TrendingUp, Sparkles, Loader2 } from 'lucide-react';
+import { unlockAudio, speak } from '@/lib/ttsClient';
 import { ChatMessage as ChatMessageType } from '@/data/chatScenarios';
 
 interface ChatMessageProps {
   message: ChatMessageType;
   className?: string;
+  showVoiceButton?: boolean;
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({
   message,
-  className = ''
+  className = '',
+  showVoiceButton = true
 }) => {
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [hasVoiceError, setHasVoiceError] = useState(false);
+  
   const isUser = message.role === 'user';
   const isLexi = message.role === 'lexi';
+
+  // Voice TTS handler
+  const handleSpeak = async () => {
+    if (isSpeaking) return;
+    
+    try {
+      setIsSpeaking(true);
+      setHasVoiceError(false);
+      
+      // Unlock audio context first
+      unlockAudio();
+      
+      // Clean text for TTS (remove emojis and formatting)
+      const cleanText = message.text
+        .replace(/[🎤💰📊✅🎉💸📈💵🔍📱💳🎯⚡️🌟]/g, '')
+        .replace(/\*\*(.*?)\*\*/g, '$1')
+        .trim();
+      
+      // Speak the message
+      await speak(cleanText);
+      
+    } catch (error) {
+      console.error('TTS failed:', error);
+      setHasVoiceError(true);
+    } finally {
+      setIsSpeaking(false);
+    }
+  };
 
   const renderMessageContent = () => {
     const baseText = message.text;
@@ -169,9 +203,36 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           {renderMessageContent()}
         </div>
 
-        {/* Message timestamp */}
-        <div className={`text-xs mt-1 ${isUser ? 'text-white/70' : 'text-gray-500'}`}>
-          {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {/* Message timestamp and voice button */}
+        <div className={`flex items-center justify-between mt-1 ${isUser ? 'text-white/70' : 'text-gray-500'}`}>
+          <div className="text-xs">
+            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </div>
+          
+          {/* Voice Chat Button for AI messages */}
+          {showVoiceButton && !isUser && (
+            <motion.button
+              onClick={handleSpeak}
+              disabled={isSpeaking}
+              className={`
+                p-1.5 rounded-full transition-all duration-200 ml-2
+                hover:bg-gray-100 text-gray-400 hover:text-whatsapp-green
+                ${isSpeaking ? 'animate-pulse' : ''}
+                ${hasVoiceError ? 'text-red-500' : ''}
+              `}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              title={isSpeaking ? 'Speaking...' : hasVoiceError ? 'Voice failed, try again' : 'Listen to message'}
+            >
+              {isSpeaking ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : hasVoiceError ? (
+                <VolumeX className="w-4 h-4" />
+              ) : (
+                <Volume2 className="w-4 h-4" />
+              )}
+            </motion.button>
+          )}
         </div>
 
         {/* Message status for user messages */}
