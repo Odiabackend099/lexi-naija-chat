@@ -33,10 +33,9 @@ const Dashboard = () => {
   return (
     <main className="min-h-screen bg-background">
       <SEOComponent
-        page="dashboard"
-        title={generateNigerianMetaTitle('dashboard', 'Lagos')}
-        description={generateNigerianMetaDescription('dashboard')}
-        canonicalUrl="/dashboard"
+        page="home"
+        title={generateNigerianMetaTitle('home', 'Lagos')}
+        description={generateNigerianMetaDescription('home')}
       />
 
       {/* Header */}
