@@ -28,7 +28,7 @@ export const AnimatedPhone = () => {
         {/* iPhone Frame */}
         <div className="relative w-72 h-[600px] bg-black rounded-[3rem] p-2 shadow-premium">
           {/* Screen */}
-          <div className="w-full h-full bg-background rounded-[2.5rem] overflow-hidden border border-border relative">
+          <div className="w-full h-full bg-background rounded-[2.5rem] overflow-hidden border border-border relative flex flex-col">
             {/* Status Bar */}
             <div className="h-12 bg-whatsapp-green flex items-center justify-between px-4 text-white text-sm font-medium">
               <div className="flex items-center gap-2">
@@ -45,6 +45,19 @@ export const AnimatedPhone = () => {
             {/* Chat Area */}
             <div className="flex-1 p-4 space-y-4 overflow-hidden">
               <ChatAnimation isPaused={isHovered} />
+            </div>
+
+            {/* Keyboard & Input */}
+            <div className="border-t border-border bg-card/80 backdrop-blur-sm p-2">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex-1 rounded-full bg-muted px-3 py-2 text-sm text-muted-foreground">Type a message</div>
+                <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-white">▶</div>
+              </div>
+              <div className="grid grid-cols-10 gap-1">
+                {Array.from({ length: 40 }).map((_, i) => (
+                  <div key={i} className="h-6 rounded bg-muted" />
+                ))}
+              </div>
             </div>
           </div>
         </div>

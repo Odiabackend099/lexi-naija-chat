@@ -67,7 +67,7 @@ export const LandingPage = () => {
       <HeroSection />
       
       {/* Voice Chat Demo */}
-      <section className="py-16 bg-muted/20">
+      <section id="demo" className="py-16 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4 text-foreground">Experience Voice AI</h2>

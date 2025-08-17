@@ -58,7 +58,7 @@ export const PricingSection = () => {
   };
 
   return (
-    <section className="py-20 relative">
+    <section id="pricing" className="py-20 relative">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -117,7 +117,7 @@ export const PricingSection = () => {
               </ul>
 
               <Button
-                onClick={tier.cta === "Contact Sales" ? undefined : handleWhatsAppCTA}
+                onClick={handleWhatsAppCTA}
                 className={`w-full ${
                   tier.popular 
                     ? "bg-secondary hover:bg-secondary/90" 

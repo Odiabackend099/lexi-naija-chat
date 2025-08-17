@@ -45,7 +45,7 @@ export const FAQSection = () => {
   };
 
   return (
-    <section className="py-20 relative">
+    <section id="faq" className="py-20 relative">
       <div className="container mx-auto px-6 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

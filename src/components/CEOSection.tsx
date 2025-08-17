@@ -8,7 +8,7 @@ export const CEOSection = () => {
   };
 
   return (
-    <section className="py-20 bg-card/30">
+    <section id="agent-lexi" className="py-20 bg-card/30">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

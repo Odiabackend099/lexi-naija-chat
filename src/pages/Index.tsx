@@ -11,8 +11,12 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) {
-      navigate('/auth');
+    if (!loading) {
+      if (user) {
+        navigate('/dashboard');
+      } else {
+        navigate('/auth');
+      }
     }
   }, [user, loading, navigate]);
 
@@ -24,20 +28,10 @@ const Index = () => {
     );
   }
 
-  if (!user) {
-    return null;
-  }
-
   return (
-    <>
-      <SEOComponent 
-        page="home"
-        title={generateNigerianMetaTitle('home', 'Lagos')}
-        description={generateNigerianMetaDescription('home')}
-        keywords={[...NIGERIAN_KEYWORDS.financial, ...NIGERIAN_KEYWORDS.banking]}
-      />
-      <LandingPage />
-    </>
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    </div>
   );
 };
 

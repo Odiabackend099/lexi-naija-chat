@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Play } from "lucide-react";
-import AnimatedPhoneDemo from "./chat/AnimatedPhoneDemo";
+import { AnimatedPhone } from "./AnimatedPhone";
 import { FloatingElements3D } from "./FloatingElements3D";
 import { ParallaxContainer, ParallaxLayer } from "./ParallaxContainer";
 import { WhatsAppCTA } from "./integrations/WhatsAppCTA";
@@ -129,18 +129,7 @@ export const HeroSection = () => {
               className="shadow-glow preserve-3d"
             />
             
-            <motion.button
-              className="px-8 py-4 text-lg font-semibold rounded-xl border border-border hover:bg-card/50 flex items-center gap-3 transition-all duration-300 glass preserve-3d"
-              whileHover={{ 
-                scale: 1.05,
-                rotateX: -5,
-                rotateY: 5
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Play className="w-5 h-5" />
-              Watch 60-sec Demo
-            </motion.button>
+{/* Secondary CTA removed to avoid dead button */}
           </motion.div>
 
           {/* Trust Indicators */}
@@ -173,7 +162,7 @@ export const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="relative"
           >
-            <AnimatedPhoneDemo />
+            <AnimatedPhone />
           </motion.div>
         </ParallaxContainer>
       </div>

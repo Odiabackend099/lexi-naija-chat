@@ -45,6 +45,7 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
     // Prepare headers
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
+      'Accept': 'audio/mpeg',
     };
     
     // Add auth header if user is logged in
@@ -53,14 +54,15 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
     }
 
     // Call secure TTS Edge Function
-    const { data, error } = await supabase.functions.invoke('secure-tts', {
+    const { data, error } = await (supabase.functions as any).invoke('secure-tts', {
       body: { 
         text: sanitizedText,
         voice,
         sessionId: session.user.id
       },
       headers,
-    });
+      responseType: 'arraybuffer',
+    } as any);
 
     if (error) {
       console.error('TTS Edge Function error:', error);
