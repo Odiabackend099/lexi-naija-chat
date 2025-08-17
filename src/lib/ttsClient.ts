@@ -6,6 +6,16 @@ const DEFAULT_VOICE = 'en-NG-EzinneNeural';
 
 let audioCtx: AudioContext | null = null;
 
+// Enhanced input sanitization
+function sanitizeInput(text: string): string {
+  return text
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/[^\w\s.,!?;:()\-\u00C0-\u017F]/g, '') // Allow only safe characters including accented letters
+    .replace(/\s+/g, ' ')
+    .trim()
+    .substring(0, 1000); // Limit to 1000 characters
+}
+
 /** Must be called from a user gesture (click/tap) once to unlock audio */
 export function unlockAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -17,8 +27,20 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
   if (!text?.trim()) return;
 
   try {
+    // Sanitize input before sending
+    const sanitizedText = sanitizeInput(text);
+    
+    if (!sanitizedText || sanitizedText.length < 1) {
+      throw new Error('Invalid or empty text input');
+    }
+
     // Get current session token for authentication
     const { data: { session } } = await supabase.auth.getSession();
+    
+    // Require authentication for TTS
+    if (!session?.user) {
+      throw new Error('Authentication required for voice services');
+    }
     
     // Prepare headers
     const headers: Record<string, string> = {
@@ -33,9 +55,9 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
     // Call secure TTS Edge Function
     const { data, error } = await supabase.functions.invoke('secure-tts', {
       body: { 
-        text: text.trim(),
+        text: sanitizedText,
         voice,
-        sessionId: session?.user?.id || `anon_${Date.now()}`
+        sessionId: session.user.id
       },
       headers,
     });
@@ -70,10 +92,8 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
 
   } catch (err) {
     console.error('Secure TTS failed:', err);
-    
-    // Fallback to direct ODIA TTS (less secure, no rate limiting)
-    console.warn('Falling back to direct TTS service');
-    return speakFallback(text, voice);
+    // For authenticated users, don't fallback to insecure service
+    throw err;
   }
 }
 

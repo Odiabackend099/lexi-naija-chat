@@ -10,6 +10,7 @@ import { optimizeForNigerianNetworks } from "@/components/SEO/SEOComponent";
 
 // Lazy load for better performance
 const Index = lazy(() => import("./pages/Index"));
+const Auth = lazy(() => import("./pages/Auth"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -50,6 +51,7 @@ const App = () => {
             }>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/auth" element={<Auth />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

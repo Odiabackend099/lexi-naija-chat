@@ -1,4 +1,8 @@
 import { motion, useScroll, useSpring } from "framer-motion";
+import { Button } from '@/components/ui/button';
+import { LogOut, User } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
 import { HeroSection } from "./HeroSection";
 import { TrustSection } from "./TrustSection";
 import { UseCasesSection } from "./UseCasesSection";
@@ -13,12 +17,22 @@ import { Footer } from "./Footer";
 import VoiceChatWidget from "./VoiceChatWidget";
 
 export const LandingPage = () => {
+  const { user, signOut } = useAuth();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast.success('Signed out successfully');
+    } catch (error) {
+      toast.error('Error signing out');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
@@ -27,6 +41,28 @@ export const LandingPage = () => {
         className="fixed top-0 left-0 right-0 h-1 bg-gradient-accent origin-left z-50"
         style={{ scaleX }}
       />
+      
+      {/* User Menu */}
+      {user && (
+        <div className="fixed top-4 right-4 z-50">
+          <div className="flex items-center gap-2 bg-card/95 backdrop-blur-sm border rounded-lg p-2">
+            <div className="flex items-center gap-2 px-3 py-1">
+              <User className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium text-foreground">
+                {user.email?.split('@')[0]}
+              </span>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSignOut}
+              className="h-8 w-8 p-0"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
       
       <HeroSection />
       

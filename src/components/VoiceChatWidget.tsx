@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mic, MicOff, Volume2, VolumeX, Phone, PhoneOff, 
-  Loader2, Waves, Circle, Settings 
+  Loader2, Waves, Circle, Settings, Shield 
 } from 'lucide-react';
 import { unlockAudio, speak } from '@/lib/ttsClient';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 
 interface VoiceChatWidgetProps {
   className?: string;
@@ -19,6 +20,7 @@ export const VoiceChatWidget: React.FC<VoiceChatWidgetProps> = ({
   onConversationStart,
   onConversationEnd
 }) => {
+  const { user, session } = useAuth();
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -189,6 +191,16 @@ export const VoiceChatWidget: React.FC<VoiceChatWidgetProps> = ({
 
   const startConversation = async () => {
     try {
+      // Check authentication first
+      if (!user || !session) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to use voice chat",
+          variant: "destructive",
+        });
+        return;
+      }
+
       unlockAudio();
       await startAudioMonitoring();
       
