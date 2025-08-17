@@ -30,36 +30,20 @@
       "purpose": "any"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshot-mobile.png",
-      "sizes": "375x812",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "LexiPay AI on mobile"
-    },
-    {
-      "src": "/screenshot-desktop.png",
-      "sizes": "1200x800", 
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "LexiPay AI on desktop"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Start Trial",
       "short_name": "Trial",
       "description": "Start 7-day free trial",
       "url": "/?utm_source=pwa_shortcut&utm_medium=trial",
-      "icons": [{ "src": "/trial-icon.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
     },
     {
       "name": "Contact Support",
       "short_name": "Support", 
       "description": "Get help on WhatsApp",
       "url": "/?utm_source=pwa_shortcut&utm_medium=support",
-      "icons": [{ "src": "/support-icon.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
     }
   ],
   "related_applications": [
