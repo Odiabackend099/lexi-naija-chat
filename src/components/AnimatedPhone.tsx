@@ -32,7 +32,7 @@ export const AnimatedPhone = () => {
             {/* Status Bar */}
             <div className="h-12 bg-whatsapp-green flex items-center justify-between px-4 text-white text-sm font-medium">
               <div className="flex items-center gap-2">
-                <img src={whatsappLogo} alt="WhatsApp" className="w-6 h-6" />
+                <img src={whatsappLogo} alt="WhatsApp logo - Lexi chat header" loading="lazy" decoding="async" className="w-6 h-6" />
                 <span>Lexi - Your AI Assistant</span>
               </div>
               <div className="flex items-center gap-1">
