@@ -44,7 +44,40 @@ serve(async (req) => {
       }
     }
 
-    const { text, voice = 'en-NG-EzinneNeural', sessionId } = await req.json() as TTSRequest;
+    // Robust body parsing to avoid JSON parse failures
+    let text: string | undefined;
+    let voice: string = 'en-NG-EzinneNeural';
+    let sessionId: string | undefined;
+    try {
+      const contentType = req.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const body = await req.json() as TTSRequest;
+        text = body.text;
+        voice = body.voice ?? voice;
+        sessionId = body.sessionId;
+      } else {
+        const raw = await req.text();
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw) as TTSRequest;
+            text = parsed.text;
+            voice = parsed.voice ?? voice;
+            sessionId = parsed.sessionId;
+          } catch {
+            const url = new URL(req.url);
+            text = url.searchParams.get('text') ?? raw;
+            voice = url.searchParams.get('voice') ?? voice;
+            sessionId = url.searchParams.get('sessionId') ?? undefined;
+          }
+        }
+      }
+    } catch (_e) {
+      // Fallback to URL params
+      const url = new URL(req.url);
+      text = url.searchParams.get('text') ?? undefined;
+      voice = url.searchParams.get('voice') ?? voice;
+      sessionId = url.searchParams.get('sessionId') ?? undefined;
+    }
 
     // Input validation
     if (!text || typeof text !== 'string') {

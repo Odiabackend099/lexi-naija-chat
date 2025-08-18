@@ -8,7 +8,7 @@ import { unlockAudio, speak } from '@/lib/ttsClient';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
-
+import { supabase } from '@/integrations/supabase/client';
 interface VoiceChatWidgetProps {
   className?: string;
   onConversationStart?: () => void;
@@ -173,20 +173,20 @@ export const VoiceChatWidget: React.FC<VoiceChatWidgetProps> = ({
     }
   };
 
-  // Mock AI response generator (replace with actual AI service)
+  // Real AI response via Edge Function
   const generateAIResponse = async (userInput: string): Promise<string> => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const responses = [
-      "I understand you want to send money. Let me help you with that transaction securely.",
-      "For supplier payments, I can process that through our secure payment gateway. What's the amount?",
-      "I've received your payment request. Please confirm the recipient details for security.",
-      "Your transaction is being processed. I'll notify you once it's completed successfully.",
-      "I can help you check your balance and recent transactions. What would you like to know?"
-    ];
-    
-    return responses[Math.floor(Math.random() * responses.length)];
+    try {
+      const { data, error } = await (supabase.functions as any).invoke('lexi-respond', {
+        body: { input: userInput, sessionId: user?.id || `anon_${Date.now()}` },
+        headers: { 'Content-Type': 'application/json' },
+      } as any);
+      if (error) throw new Error(error.message || 'AI service error');
+      const text = (data && (data.text || data.generatedText || data.reply)) as string;
+      return text || 'Sorry, I could not generate a response right now.';
+    } catch (e) {
+      console.error('AI invocation failed:', e);
+      return 'Sorry, I ran into a problem understanding that. Please try again.';
+    }
   };
 
   const startConversation = async () => {

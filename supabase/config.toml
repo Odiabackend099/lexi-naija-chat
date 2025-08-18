@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.secure-tts]
 verify_jwt = false
+
+[functions.lexi-respond]
+verify_jwt = false

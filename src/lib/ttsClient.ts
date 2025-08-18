@@ -56,7 +56,7 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
         sessionId: session?.user?.id || `anon_${Date.now()}`
       },
       headers,
-      responseType: 'arraybuffer',
+      
     } as any);
 
     if (error) {
