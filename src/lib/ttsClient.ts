@@ -64,8 +64,38 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
       throw new Error(error.message || 'TTS service failed');
     }
 
-    // Create audio from response
-    const audioBlob = new Blob([data], { type: 'audio/mpeg' });
+    // Normalize response to raw MPEG bytes (supports base64 JSON or binary)
+    let audioBytes: Uint8Array | null = null;
+
+    if (data && typeof data === 'object' && 'audioContent' in (data as any)) {
+      // JSON payload with base64 audio (e.g., { audioContent: "..." })
+      const base64 = (data as any).audioContent as string;
+      const bin = atob(base64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      audioBytes = bytes;
+    } else if (typeof data === 'string') {
+      // Sometimes functions return base64 string directly
+      try {
+        const bin = atob(data);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        audioBytes = bytes;
+      } catch {
+        // Not base64, will fall back
+      }
+    } else if (data instanceof ArrayBuffer) {
+      audioBytes = new Uint8Array(data as ArrayBuffer);
+    } else if (typeof Blob !== 'undefined' && data instanceof Blob) {
+      const buf = await (data as Blob).arrayBuffer();
+      audioBytes = new Uint8Array(buf);
+    }
+
+    if (!audioBytes || audioBytes.length === 0) {
+      throw new Error('Unexpected TTS response format');
+    }
+
+    const audioBlob = new Blob([audioBytes], { type: 'audio/mpeg' });
     const audioUrl = URL.createObjectURL(audioBlob);
     const audio = new Audio(audioUrl);
     audio.crossOrigin = 'anonymous';

@@ -16,14 +16,24 @@ serve(async (req) => {
     let input = '';
     let sessionId: string | undefined;
 
-    if (contentType.includes('application/json')) {
-      const body = await req.json();
-      input = (body.input || body.text || '').toString();
-      sessionId = body.sessionId as string | undefined;
-    } else {
+    // Robust body parsing: safely parse JSON if present, otherwise fall back to query params
+    try {
+      if (contentType.includes('application/json')) {
+        const raw = await req.clone().text();
+        if (raw && raw.trim().length > 0) {
+          const body = JSON.parse(raw);
+          input = (body.input || body.text || '').toString();
+          sessionId = body.sessionId as string | undefined;
+        }
+      }
+    } catch (e) {
+      console.error('lexi-respond: invalid JSON body', e);
+    }
+
+    if (!input) {
       const url = new URL(req.url);
       input = url.searchParams.get('input') || '';
-      sessionId = url.searchParams.get('sessionId') || undefined;
+      sessionId = sessionId || (url.searchParams.get('sessionId') || undefined);
     }
 
     if (!input || input.trim().length === 0) {
@@ -55,7 +65,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-5-mini-2025-08-07',
+        model: 'gpt-5-2025-08-07',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: input }
