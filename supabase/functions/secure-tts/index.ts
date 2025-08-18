@@ -28,7 +28,7 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Get JWT token for user identification
+    // Get JWT token for user identification (optional for anonymous users)
     const authHeader = req.headers.get('authorization');
     let userId: string | null = null;
     
@@ -40,7 +40,7 @@ serve(async (req) => {
           userId = user.id;
         }
       } catch (e) {
-        console.log('Auth token validation failed:', e);
+        console.log('Auth token validation failed (allowing anonymous):', e);
       }
     }
 

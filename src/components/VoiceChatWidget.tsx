@@ -191,16 +191,6 @@ export const VoiceChatWidget: React.FC<VoiceChatWidgetProps> = ({
 
   const startConversation = async () => {
     try {
-      // Check authentication first
-      if (!user || !session) {
-        toast({
-          title: "Authentication Required",
-          description: "Please sign in to use voice chat",
-          variant: "destructive",
-        });
-        return;
-      }
-
       unlockAudio();
       await startAudioMonitoring();
       

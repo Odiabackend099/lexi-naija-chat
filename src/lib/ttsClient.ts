@@ -34,13 +34,8 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
       throw new Error('Invalid or empty text input');
     }
 
-    // Get current session token for authentication
+    // Get current session token (optional for anonymous users)
     const { data: { session } } = await supabase.auth.getSession();
-    
-    // Require authentication for TTS
-    if (!session?.user) {
-      throw new Error('Authentication required for voice services');
-    }
     
     // Prepare headers
     const headers: Record<string, string> = {
@@ -53,12 +48,12 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
       headers['Authorization'] = `Bearer ${session.access_token}`;
     }
 
-    // Call secure TTS Edge Function
+    // Call secure TTS Edge Function (works for both authenticated and anonymous users)
     const { data, error } = await (supabase.functions as any).invoke('secure-tts', {
       body: { 
         text: sanitizedText,
         voice,
-        sessionId: session.user.id
+        sessionId: session?.user?.id || `anon_${Date.now()}`
       },
       headers,
       responseType: 'arraybuffer',
@@ -94,8 +89,9 @@ export async function speak(text: string, voice = DEFAULT_VOICE) {
 
   } catch (err) {
     console.error('Secure TTS failed:', err);
-    // For authenticated users, don't fallback to insecure service
-    throw err;
+    // Fallback to direct TTS for anonymous users or when edge function fails
+    console.log('Falling back to direct TTS service...');
+    return await speakFallback(text, voice);
   }
 }
 
